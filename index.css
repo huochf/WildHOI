@@ -1,0 +1,194 @@
+
+a {
+	text-decoration: : none;
+}
+
+.section-title {
+	font-weight: 700;
+	font-size: 24px;
+	color: #2E7459;
+    margin: 30px 30px;
+}
+
+.section-subtitle {
+	font-weight: 700;
+	font-size: 20px;
+	color: #3A9371;
+    margin:10px 10px;
+}
+
+.box{
+    display:flex;
+    align-items:center;
+    margin:10px 10px;
+}
+
+.shadow {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 20px 20px 20px 20px;
+    background-color: #FFFFFF;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.line{
+    border-top:1px solid #3A9371;
+    flex-grow:1;
+    margin:10px 10px;
+}
+
+.text{
+}
+
+.publication-title {
+	font-size: 36px;
+    margin:50px 50px;
+}
+
+.has-text-centered {
+	text-align: center;
+}
+
+.column {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1100px;	
+}
+
+.publication-authors {
+	font-size: 20px;	
+}
+
+.author-block {
+	font-weight: 700;
+}
+
+.affiliations-block {
+	font-weight: 400;
+}
+
+.conference-block {
+	font-weight: 700;
+	font-style: italic;
+}
+
+.content {
+	font-family: Times;
+	text-align: justify;
+}
+
+.pad {
+	padding: 30px 10px;
+}
+
+.button-text {
+	vertical-align: middle;
+    font-weight: 700;
+    font-size: 20px;
+    color: #fff;
+    padding: 5px 10px;
+}
+
+.button{
+    width: 180px;
+    height: 50px;
+    background: linear-gradient(315deg, #3A9371 0%, #20B2AA 74%);
+    border: none;
+    border-radius: 20px;
+    box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, .5),
+    7px 7px 20px 0px rgba(0, 0, 0, .1),
+    4px 4px 5px 0px rgba(0, 0, 0, .1);
+    outline: none;
+    position: relative;
+    z-index: 0;
+}
+
+.button::before{
+    position:absolute;
+    content: '';
+    left: 0;
+    bottom:0;
+    width: 100%;
+    height: 0;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+    background: linear-gradient(315deg, #4EBA91 0%, #48D1CC 74%);
+    z-index: -1;
+}
+
+.button:hover::before{
+    top: 0;
+    height: 100%;
+}
+
+.button:active{
+    top: 2px;
+}
+
+.text-half-parent {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.text-quat-parent {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    width: 100%;
+    padding: 5px 5px;
+}
+
+.text-half {
+    font-size: 20px;
+    font-family: Times;
+    font-weight: 700;
+}
+
+.text-quat {
+    font-size: 16px;
+    font-family: Times;
+    font-weight: 700;
+}
+
+.text-half-quat {
+    font-size: 12px;
+    font-family: Times;
+    font-weight: 700;
+}
+
+.align-left {
+    float: left;
+}
+
+.align-right {
+    float: right;
+    padding: 5px 20px;
+}
+
+.citation {
+    text-align: start;
+    padding: 10px 10px;
+}
+
+.navigation-column {
+    padding: 0px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.navigation-column:hover {
+    opacity: 0.7;
+}
+
+.navigation-row:after {
+/*    content: "";
+    display: table;
+    clear: both;*/
+}
+
+.js-container {
+    position: relative;
+    display: block;
+}

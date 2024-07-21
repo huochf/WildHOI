@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildHOI: Monocular Human-Object Reconstruction in the Wild</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="importmap">
+        {
+            "imports": {
+              "three": "https://cdn.jsdelivr.net/npm/three@v0.166.1/build/three.module.js",
+              "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.166.1/examples/jsm/"
+        }
+      }
+    </script>
+</head>
+
+<body class="shadow">
+<section>
+    <img src="res/mm_logo.png" height="100">
+    <img class="align-right" src="res/shanghaitech_logo_long.svg" height="100">
+    <div class="column has-text-centered">
+    <h1 class="publication-title">WildHOI: Monocular Human-Object Reconstruction in the Wild</h1>
+    <div class="publication-authors">
+        <span class="author-block">Chaofan Huo</span><sup>1,2</sup>,
+        <span class="author-block"><a href="https://faculty.sist.shanghaitech.edu.cn/faculty/shiye/">Ye Shi</a></span><sup>1,2</sup>,
+        <span class="author-block"><a href=" http://faculty.sist.shanghaitech.edu.cn/faculty/wangjingya/">Jingya Wang</a></span><sup>*1,2</sup>
+    </div>
+    <div class="publication-authors">
+        <span class="affiliations-block"><sup>1</sup><a href="https://www.shanghaitech.edu.cn/">ShanghaiTech University</a></span>
+        <br>
+        <span class="affiliations-block"><sup>2</sup><a href="https://sist.shanghaitech.edu.cn/shznsjyxjyygcjsyjzx/list.htm">Shanghai Engineering Research Center of Intelligent Vision and Imaging</a></span>
+        <br>
+        <span class="affiliations-block"><sup>*</sup>Corresponding author.</span>
+        <br>
+        In <span class="conference-block"><a href="https://2024.acmmm.org/">ACM Multimedia 2024, Melbourne, Australia.</a></span>
+    </div>
+
+    <div class="pad">
+        <span class="pad"><a href="-"><button class="button"><img src="./res/arxiv.ico" style="vertical-align: middle;"><span class="button-text">Paper</span></button></a></span>
+        <span class="pad"><a href="-"><button class="button"><img src="./res/drive.ico" style="vertical-align: middle;"><span class="button-text">Data</span></button></a></span>
+        <span class="pad"><a href="-"><button class="button"><img src="./res/github.ico" style="vertical-align: middle;"><span class="button-text">Code</span></button></a></span>
+    </div>
+</section>
+
+<section>
+    <div class="column" id="js-container">
+        <script id="three-js-distribution" type="module" src="index.js"></script>
+    </div>
+    <div class="column navigation-row">
+        <img class="navigation-column" id="barbell" src="res/barbell.jpg" alt="js/barbell.js" width="12%" onclick="runJS(this);">
+        <img class="navigation-column" id="baseball" src="res/baseball.jpg" alt="js/baseball.js" width="12%" onclick="runJS(this);">
+        <img class="navigation-column" id="basketball" src="res/basketball.jpg" alt="js/basketball.js" width="12%" onclick="runJS(this);">
+        <img class="navigation-column" id="bicycle" src="res/bicycle.jpg" alt="js/bicycle.js" width="12%" onclick="runJS(this);">
+        <img class="navigation-column" id="cello" src="res/cello.jpg" alt="js/cello.js" width="12%" onclick="runJS(this);">
+        <img class="navigation-column" id="skateboard" src="res/skateboard.jpg" alt="js/skateboard.js" width="12%" onclick="runJS(this);">
+        <img class="navigation-column" id="tennis" src="res/tennis.jpg" alt="js/tennis.js" width="12%" onclick="runJS(this);">
+        <img class="navigation-column" id="violin" src="res/violin.jpg" alt="js/violin.js" width="12%" onclick="runJS(this);">
+    </div>
+</section>
+
+<script>
+function runJS(imgs) {}
+</script>
+
+<section>
+    <div class="column has-text-centered">
+        <h1 class="section-title">Abstract</h1>
+        <p class="content">Learning the prior knowledge of the 3D human-object spatial relation is crucial for reconstructing human-object interaction from images and understanding how humans interact with objects in 3D space. Previous works learn this prior from datasets collected in controlled environments, but due to the diversity of domains, they struggle to generalize to real-world scenarios. To overcome this limitation, we present a 2D-supervised method that learns the 3D human-object spatial relation prior purely from 2D images in the wild. Our method utilizes a flow-based neural network to learn the prior distribution of the 2D human-object keypoint layout and viewports for each image in the dataset. The effectiveness of the prior learned from 2D images is demonstrated on the human-object reconstruction task by applying the prior to tune the relative pose between the human and the object during the post-optimization stage. To validate and benchmark our method on in-the-wild images, we collect the WildHOI dataset from the YouTube website, which consists of various interactions with 8 objects in real-world scenarios. We conduct the experiments on the indoor BEHAVE dataset and the outdoor WildHOI dataset. The results show that our method achieves almost comparable performance with fully 3D supervised methods on the BEHAVE dataset, even if we have only utilized the 2D layout information, and outperforms previous methods in terms of generality and interaction diversity on in-the-wild images.</p>
+    </div>
+</section>
+
+<section>
+    <div class="column has-text-centered">
+        <h1 class="section-title">Main Pipeline</h1>
+        <img width="100%" src="./res/pipeline.png">
+        <p class="content">The main pipeline of our method. We utilize the normalizing flow to learn the distribution of the 2D human-object keypoints in each image plane from vast images in the wild. The normalizing flow takes the input image $\mathbf{I}$ as the condition to transform the noize $\mathbf{z}$ from Gaussian distribution to the 2.5D keypoints $\mathbf{X}_{\text{2.5D}}$ which is intermediate representation combining the view pose $\rho$ and the 2D human-object keypoint layout $\Pi_\rho(\mathbf{X}_{\text{3D}})$. To train this conditioned normalizing flow, we collect a bunch of images from the Internet and group these images together based on the geometry consistency of the 2D human-object keypoints in each view. Then we incorporate the prior learned from 2D images into the post-optimization process. In the post-optimization stage, we project the 3D human-object keypoints onto different image planes of the virtual cameras to ensure the reconstructed results seem coherently observed from other views. Besides, we use the mean occlusion maps that are obtained by averaging the occlusion maps in the images to compute the contact loss. Our method is supervised without using any 3D annotations or commonsense knowledge of the spatial relation between the human and the object.</p>
+    </div>
+</section>
+
+<section>
+    <div class="column has-text-centered">
+        <h1 class="section-title">Qualitative Results</h1>
+        <div class="box">
+            <span class="line"></span>
+            <span class="section-subtitle">Comparison with PHOSA</span>
+            <span class="line"></span>
+        </div>
+        <div class="text-quat-parent">
+            <span class="text-quat">PHOSA</span>
+            <span class="text-quat">Ours</span>
+            <span class="text-quat">PHOSA</span>
+            <span class="text-quat">Ours</span>
+        </div>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/baseball_comparison_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/baseball_comparison_2.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/basketball_comparison_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/basketball_comparison_2.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/skateboard_comparison_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/skateboard_comparison_2.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/tennis_comparison_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="48%" ><source src="demos/comparisons/tennis_comparison_2.mp4" type="video/mp4"></video>
+
+        <div class="box">
+            <span class="line"></span>
+            <span class="section-subtitle">More Results</span>
+            <span class="line"></span>
+        </div>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/baseball_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/baseball_2.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/baseball_3.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/baseball_4.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/basketball_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/basketball_2.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/basketball_3.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/basketball_4.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/bicycle_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/bicycle_2.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/bicycle_3.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/bicycle_4.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/cello_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/cello_2.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/cello_3.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/cello_4.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/skateboard_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/skateboard_2.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/skateboard_3.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/skateboard_4.mp4" type="video/mp4"></video>
+
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/violin_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/violin_2.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/violin_3.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/violin_4.mp4" type="video/mp4"></video>
+
+        <div class="box">
+            <span class="line"></span>
+            <span class="section-subtitle">Failures</span>
+            <span class="line"></span>
+        </div>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/failures_1.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/failures_2.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/failures_3.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="24%" ><source src="demos/recon_results/failures_4.mp4" type="video/mp4"></video>
+    </div>
+</section>
+
+<section>
+    <div class="column has-text-centered">
+        <h1 class="section-title">WildHOI Dataset</h1>
+        <img src="res/dataset_teaser.png" style="display: block; width: 100%;  max-width: 1100px; margin: 0 auto;">
+        <p class="content"> In order to validate our method in natural scenes, we collected the WildHOI dataset, which consists of a diverse range of videos from the YouTube website, capturing various natural scenes and human-object interactions. Overall, our dataset contains diverse interactions with 8 object categories in various real-world scenarios. Each image is annotated with the bounding boxes, masks, SMPL pseudo parameters, and the human-object keypoints. The statistics of the WildHOI dataset are as follows.</p>
+        <table align="center" cellpadding="10" cellspacing="0" border=2>
+            <thead>
+                <tr>
+                    <th colspan="2">Category</th>
+                    <th>barbell</th>
+                    <th>baseball bat</th>
+                    <th>basketball</th>
+                    <th>bicycle</th>
+                    <th>cello</th>
+                    <th>skateboard</th>
+                    <th>tennis bat</th>
+                    <th>violin</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th rowspan="2">Training</th>
+                    <th>Videos</th>
+                    <td>204</td>
+                    <td>372</td>
+                    <td>84</td>
+                    <td>224</td>
+                    <td>204</td>
+                    <td>280</td>
+                    <td>339</td>
+                    <td>184</td>
+                </tr>
+                <tr>
+                    <th>Frames</th>
+                    <td>37, 869</td>
+                    <td>39, 871</td>
+                    <td>36, 647</td>
+                    <td>43, 094</td>
+                    <td>101, 737</td>
+                    <td>101, 643</td>
+                    <td>82, 820</td>
+                    <td>31, 049</td>
+                </tr>
+                <tr>
+                    <th rowspan="2">Testing</th>
+                    <th>Videos</th>
+                    <td>40</td>
+                    <td>79</td>
+                    <td>22</td>
+                    <td>57</td>
+                    <td>52</td>
+                    <td>63</td>
+                    <td>84</td>
+                    <td>47</td>
+                </tr>
+                <tr>
+                    <th>Frames</th>
+                    <td>200</td>
+                    <td>589</td>
+                    <td>130</td>
+                    <td>268</td>
+                    <td>181</td>
+                    <td>511</td>
+                    <td>473</td>
+                    <td>181</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="box">
+            <span class="line"></span>
+            <span class="section-subtitle">Object Pose Annotations</span>
+            <span class="line"></span>
+        </div>
+        <p class="content">We mannually annotate a small subset of images (0.7k~4k) with the 6D pose of objects in each category. (total: ~17k)</p>
+        <div class="text-quat-parent">
+            <div class="text-half-parent">
+                <span class="text-half-quat">Keypoints</span>
+                <span class="text-half-quat">Pose</span>
+            </div>
+            <div class="text-half-parent">
+                <span class="text-half-quat">Keypoints</span>
+                <span class="text-half-quat">Pose</span>
+            </div>
+            <div class="text-half-parent">
+                <span class="text-half-quat">Keypoints</span>
+                <span class="text-half-quat">Pose</span>
+            </div>
+            <div class="text-half-parent">
+                <span class="text-half-quat">Keypoints</span>
+                <span class="text-half-quat">Pose</span>
+            </div>
+        </div>
+        <img width="24%" src="demos/object_pose/barbell_1.jpg">
+        <img width="24%" src="demos/object_pose/barbell_2.jpg">
+        <img width="24%" src="demos/object_pose/baseball_1.jpg">
+        <img width="24%" src="demos/object_pose/baseball_2.jpg">
+        <img width="24%" src="demos/object_pose/basketball_1.jpg">
+        <img width="24%" src="demos/object_pose/basketball_2.jpg">
+        <img width="24%" src="demos/object_pose/bicycle_1.jpg">
+        <img width="24%" src="demos/object_pose/bicycle_2.jpg">
+        <img width="24%" src="demos/object_pose/cello_1.jpg">
+        <img width="24%" src="demos/object_pose/cello_2.jpg">
+        <img width="24%" src="demos/object_pose/skateboard_1.jpg">
+        <img width="24%" src="demos/object_pose/skateboard_2.jpg">
+        <img width="24%" src="demos/object_pose/tennis_1.jpg">
+        <img width="24%" src="demos/object_pose/tennis_2.jpg">
+        <img width="24%" src="demos/object_pose/violin_1.jpg">
+        <img width="24%" src="demos/object_pose/violin_2.jpg">
+        <div class="box">
+            <span class="line"></span>
+            <span class="section-subtitle">Pseudo Annotations</span>
+            <span class="line"></span>
+        </div>
+        <div class="text-quat-parent">
+            <span class="text-quat">Tracking</span>
+            <span class="text-quat">ViTPose</span>
+            <span class="text-quat">SMPL-X</span>
+            <span class="text-quat">Object Pose</span>
+        </div>
+        <video autoplay="" loop="" muted="" playsinline="" width="100%" ><source src="demos/annotations/barbell.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="100%" ><source src="demos/annotations/basketball.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="100%" ><source src="demos/annotations/bicycle.mp4" type="video/mp4"></video>
+        <video autoplay="" loop="" muted="" playsinline="" width="100%" ><source src="demos/annotations/skateboard.mp4" type="video/mp4"></video>
+    </div>
+</section>
+
+<section>
+    <div class="column has-text-centered">
+        <h1 class="section-title">Citation</h1> 
+    </div>
+    <div class="column has-text-centered" style="background:rgb(248,248,248) ;"><pre class="citation">
+@inproceedings{ijcai2023p100,
+  title     = {StackFLOW: Monocular Human-Object Reconstruction by Stacked Normalizing Flow with Offset},
+  author    = {Huo, Chaofan and Shi, Ye and Ma, Yuexin and Xu, Lan and Yu, Jingyi and Wang, Jingya},
+  booktitle = {Proceedings of the Thirty-Second International Joint Conference on
+               Artificial Intelligence, {IJCAI-23}},
+  publisher = {International Joint Conferences on Artificial Intelligence Organization},
+  editor    = {Edith Elkind},
+  pages     = {902--910},
+  year      = {2023},
+  month     = {8},
+  note      = {Main Track},
+  doi       = {10.24963/ijcai.2023/100},
+  url       = {https://doi.org/10.24963/ijcai.2023/100},
+}</pre>
+    </div>
+</section>
+</body>
+
+</html>
