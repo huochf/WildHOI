@@ -4,7 +4,7 @@ Implementation for the paper: `Monocular Human-Object Reconstruction in the Wild
 
 [![arXiv](https://img.shields.io/badge/arXiv-NAN-00ff00.svg)](-) [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](https://huochf.github.io/WildHOI/) [<img alt="YouTube Video Views" src="https://img.shields.io/youtube/views/XIMLoLxmTDw?style=plastic">](-)
 
-![teaser](assets\teaser.png)
+![teaser](assets/teaser.png)
 
 ## Set up Environments
 
