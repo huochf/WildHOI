@@ -67,7 +67,7 @@ cd multiperson/neural_renderer && python setup.py install
 
 ## Train
 
-1. download the WildHOI dataset from [here?]().
+1. download the WildHOI dataset from [here](https://drive.google.com/drive/folders/1yJy_u83KiV1W-6xxAqyLmdGOSt-G_y1C?usp=sharing).
 2. generate KPS groups list. (or download them from [here](https://drive.google.com/file/d/107D0Cr6mO77QzyltroTc7xGI7rfROXpE/view?usp=sharing), put them in the folder `CODE_DIR/outputs`).
 
 ```
