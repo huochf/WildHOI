@@ -284,7 +284,7 @@ function runJS(imgs) {}
         <h1 class="section-title">Citation</h1> 
     </div>
     <div class="column has-text-centered" style="background:rgb(248,248,248) ;"><pre class="citation">
-    @inproceedings{10.1145/3664647.3681452,
+@inproceedings{10.1145/3664647.3681452,
 author = {Huo, Chaofan and Shi, Ye and Wang, Jingya},
 title = {Monocular Human-Object Reconstruction in the Wild},
 year = {2024},
@@ -293,7 +293,6 @@ publisher = {Association for Computing Machinery},
 address = {New York, NY, USA},
 url = {https://doi.org/10.1145/3664647.3681452},
 doi = {10.1145/3664647.3681452},
-abstract = {Learning the prior knowledge of the 3D human-object spatial relation is crucial for reconstructing human-object interaction from images and understanding how humans interact with objects in 3D space. Previous works learn this prior from the latest-released human-object interaction dataset collected in controlled environments. However, due to the domain divergence, these methods are limited by the data that the prior learned from and fail to generalize to real-world data with high diversity. To overcome this limitation, we present a 2D-supervised method that learns the 3D human-object spatial relation prior purely from 2D images in the wild. Our method utilizes a flow-based neural network to learn the prior distribution of the 2D human-object keypoint layout and viewports for each image in the dataset. The effectiveness of the prior learned from 2D images is demonstrated on the human-object reconstruction task by applying the prior to tune the relative pose between the human and the object during the post-optimization stage. To validate and benchmark our method on in-the-wild images, we collect the WildHOI dataset from the YouTube website, which consists of various interactions with 8 objects in real-world scenarios. We conduct the experiments on the indoor BEHAVE dataset and the outdoor WildHOI dataset. The results show that our method achieves almost comparable performance with fully 3D supervised methods on the BEHAVE dataset, even if we have only utilized the 2D layout information, and outperforms previous methods in terms of generality and interaction diversity on in-the-wild images. The code and the dataset are available at https://huochf.github.io/WildHOI/ for research purposes.},
 booktitle = {Proceedings of the 32nd ACM International Conference on Multimedia},
 pages = {5547–5555},
 numpages = {9},
